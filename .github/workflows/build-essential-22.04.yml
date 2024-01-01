@@ -1,0 +1,78 @@
+name: docker-build
+
+on:
+  push:
+    branches-ignore:
+    - "renovate/**"
+    paths:
+    - "build-essential/22.04/**"
+    - "!build-essential/22.04/README.md"
+    - ".github/workflows/ubuntu-22.04.yml"
+  pull_request:
+    types:
+    - opened
+    - synchronize
+    - labeled
+    - reopened
+    paths:
+    - "build-essential/22.04/**"
+    - "!build-essential/22.04/README.md"
+    - ".github/workflows/ubuntu-22.04.yml"
+  schedule:
+  - cron:  '0 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: docker-build
+    permissions:
+      packages: write
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: build-essential
+      IMAGE_TAG: 22.04
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set SOURCE_DATE_EPOCH
+      id: set-source-date-epoch
+      run: |
+        echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >>"${GITHUB_ENV}"
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build
+      uses: docker/build-push-action@v5
+      env:
+        SOURCE_DATE_EPOCH: ${{ steps.set-source-date-epoch.outputs.SOURCE_DATE_EPOCH }}
+      with:
+        context: ubuntu/22.04
+        platforms: linux/amd64,linux/arm64
+        provenance: true
+        sbom: true
+        cache-from: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH'
