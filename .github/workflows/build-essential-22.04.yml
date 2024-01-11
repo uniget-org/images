@@ -60,7 +60,7 @@ jobs:
       env:
         SOURCE_DATE_EPOCH: ${{ steps.set-source-date-epoch.outputs.SOURCE_DATE_EPOCH }}
       with:
-        context: ubuntu/22.04
+        context: build-essential/22.04
         platforms: linux/amd64,linux/arm64
         provenance: true
         sbom: true

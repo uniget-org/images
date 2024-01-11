@@ -4,11 +4,11 @@ FROM ghcr.io/uniget-org/images/ubuntu:22.04 AS base
 RUN <<EOF
 apt-get update
 apt-get -y install \
-    build-essential \
     autogen \
     autoconf \
     automake \
     libtool \
+    build-essential \
     pkg-config
 EOF
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
