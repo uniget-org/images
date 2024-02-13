@@ -87,7 +87,7 @@ jobs:
       run: |
         echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>"$GITHUB_OUTPUT"
         echo "digest=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
-        echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" | tr '.' '' >>"$GITHUB_OUTPUT"
+        echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" | tr -d '.' >>"$GITHUB_OUTPUT"
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
 
