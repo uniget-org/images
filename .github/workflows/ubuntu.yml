@@ -75,7 +75,7 @@ jobs:
         tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
 
     - name: Install cosign
-      uses: sigstore/cosign-installer
+      uses: sigstore/cosign-installer@v3
 
     - name: Sign
       env:
