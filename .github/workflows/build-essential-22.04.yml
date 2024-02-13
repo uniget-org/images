@@ -7,7 +7,7 @@ on:
     paths:
     - "build-essential/22.04/**"
     - "!build-essential/22.04/README.md"
-    - ".github/workflows/ubuntu-22.04.yml"
+    - ".github/workflows/build-essential-22.04.yml"
   pull_request:
     types:
     - opened
@@ -17,7 +17,7 @@ on:
     paths:
     - "build-essential/22.04/**"
     - "!build-essential/22.04/README.md"
-    - ".github/workflows/ubuntu-22.04.yml"
+    - ".github/workflows/build-essential-22.04.yml"
   schedule:
   - cron:  '0 7 * * *'
   workflow_dispatch:
