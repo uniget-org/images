@@ -120,7 +120,7 @@ jobs:
         echo "OUTPUTS_JSON=${OUTPUTS_JSON}"
 
         IMAGES_JSON="$(
-            echo "${OUTPUTS_JSON}" | jq '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}]'
+            jq '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}]' <<<"${OUTPUTS_JSON}"
         )"
         echo "IMAGES_JSON=${IMAGES_JSON}"
 
