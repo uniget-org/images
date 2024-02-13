@@ -118,6 +118,9 @@ jobs:
     steps:
     - name: test
       run: echo "${{ toJSON(needs.build.outputs) }}"
+    - name: test2
+      run: |
+        echo "${{ toJSON(needs.build.outputs) }}" | jq --arg image_tag "${IMAGE_TAG/./}" '."digest\($image_tag)"'
 
   #provenance:
   #  needs:
