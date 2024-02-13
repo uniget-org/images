@@ -49,6 +49,7 @@ jobs:
     - name: Set SOURCE_DATE_EPOCH
       id: set-source-date-epoch
       run: |
+        git log -1 ubuntu/Dockerfile
         echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct ubuntu/Dockerfile)" >>"${GITHUB_OUTPUT}"
 
     - name: Set up QEMU
@@ -84,7 +85,7 @@ jobs:
       id: metadata
       run: |
         echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>"$GITHUB_OUTPUT"
-        echo "digest${{ matrix.IMAGE_TAG }}=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}" | tr -d '.' >>"$GITHUB_OUTPUT"
+        echo "digest${{ matrix.IMAGE_TAG }}={{ steps.build.outputs.digest }}" | tr -d '.' >>"$GITHUB_OUTPUT"
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
 
@@ -116,7 +117,15 @@ jobs:
     - name: transform
       id: transform
       run: |
-        echo "images=${{ toJSON(needs.build.outputs) }}" | jq '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}]' >>"$GITHUB_OUTPUT"
+        OUTPUTS_JSON="${{ toJSON(needs.build.outputs) }}"
+        echo "OUTPUTS_JSON=${OUTPUTS_JSON}"
+
+        IMAGES_JSON="$(#
+            echo "${OUTPUTS_JSON}" | jq '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}]'
+        )"
+        echo "IMAGES_JSON=${IMAGES_JSON}"
+
+        echo "images="${IMAGES_JSON}" >>"$GITHUB_OUTPUT"
 
   provenance:
     needs:
