@@ -40,8 +40,6 @@ jobs:
         - 22.04
         - 24.04
     outputs:
-      image: ${{ steps.metadata.outputs.image}}
-      digest: ${{ steps.metadata.outputs.digest}}
       digest2204: ${{ steps.metadata.outputs.digest2204 }}
       digest2404: ${{ steps.metadata.outputs.digest2404 }}
     steps:
@@ -86,9 +84,7 @@ jobs:
     - name: Pass metadata
       id: metadata
       run: |
-        echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>"$GITHUB_OUTPUT"
-        echo "digest=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
-        echo "digest${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" | tr -d '.' >>"$GITHUB_OUTPUT"
+        echo "digest${{ matrix.IMAGE_TAG }}=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
 
@@ -106,36 +102,36 @@ jobs:
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
   
-  test:
+  transform:
     needs:
     - build
-    strategy:
-      matrix:
-        IMAGE_TAG:
-        - 22.04
-        - 24.04
     runs-on: ubuntu-latest
+    outputs:
+      images: ${{ steps.transform.outputs.images }}
     steps:
+
     - name: test
       run: echo "${{ toJSON(needs.build.outputs) }}"
-    - name: test2
+      
+    - name: transform
+      id: transform
       run: |
-        echo "${{ toJSON(needs.build.outputs) }}" | jq --arg image_tag "${IMAGE_TAG/./}" '."digest\($image_tag)"'
+        echo "images=${{ toJSON(needs.build.outputs) }}" | jq '[ . | to_entries[] | .value ]' >>"$GITHUB_OUTPUT"
 
-  #provenance:
-  #  needs:
-  #  - build
-  #  permissions:
-  #    actions: read
-  #    id-token: write
-  #    packages: write
-  #  strategy:
-  #    matrix:
-  #      DIGEST: ${{ needs.build.outputs.* }}
-  #  uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
-  #  with:
-  #    image: ${{ needs.build.outputs.image }}
-  #    digest: ${{ toJSON(needs.build.outputs) }}
-  #    registry-username: ${{ github.actor }}
-  #  secrets:
-  #    registry-password: ${{ secrets.GITHUB_TOKEN }}
+  provenance:
+    needs:
+    - transform
+    permissions:
+      actions: read
+      id-token: write
+      packages: write
+    strategy:
+      matrix:
+        DIGEST: ${{ fromJSON(needs.transform.outputs.images) }}
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
+    with:
+      image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
+      digest: ${{ matrix.DIGEST }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
