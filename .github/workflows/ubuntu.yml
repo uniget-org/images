@@ -22,6 +22,11 @@ on:
   - cron: '0 7 * * *'
   workflow_dispatch:
 
+  
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ubuntu
+
 jobs:
   build:
     name: docker-build
@@ -29,14 +34,14 @@ jobs:
       packages: write
       id-token: write
     runs-on: ubuntu-latest
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: ubuntu
     strategy:
       matrix:
         IMAGE_TAG:
         - 22.04
         - 24.04
+    outputs:
+      2204: ${{ steps.build.outputs.digest2204 }}
+      2404: ${{ steps.build.outputs.digest2404 }}
     steps:
 
     - name: Checkout
@@ -76,6 +81,11 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
 
+    - name: Pass digest
+      id: digest
+      run: |
+        echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
+
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
 
@@ -92,3 +102,21 @@ jobs:
         exit-code: '1'
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
+
+  provenance:
+    needs:
+    - build
+    permissions:
+      actions: read
+      id-token: write
+      packages: write
+    strategy:
+      matrix:
+        DIGEST: ${{ needs.build.outputs.* }}
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
+    with:
+      image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.DIGEST }}
+      digest: ${{ needs.build.outputs.digest }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
