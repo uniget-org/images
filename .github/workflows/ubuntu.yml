@@ -82,7 +82,7 @@ jobs:
     - name: Sign
       env:
         COSIGN_EXPERIMENTAL: "true"
-      run: cosign sign ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+      run: cosign sign -y ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
