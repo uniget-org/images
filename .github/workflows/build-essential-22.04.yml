@@ -1,4 +1,4 @@
-name: docker-build
+name: build-essential
 
 on:
   push:
