@@ -22,11 +22,6 @@ on:
   - cron: '0 7 * * *'
   workflow_dispatch:
 
-  
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ubuntu
-
 jobs:
   build:
     name: docker-build
@@ -86,8 +81,8 @@ jobs:
       id: metadata
       run: |
         echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>"$GITHUB_OUTPUT"
-        echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
-
+        echo "digest=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
+        echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" | tr '.' '' >>"$GITHUB_OUTPUT"
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
 
@@ -118,20 +113,20 @@ jobs:
     - name: test
       run: echo "${{ toJSON(needs.build.outputs) }}"
 
-  provenance:
-    needs:
-    - build
-    permissions:
-      actions: read
-      id-token: write
-      packages: write
-    strategy:
-      matrix:
-        DIGEST: ${{ needs.build.outputs.* }}
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
-    with:
-      image: ${{ needs.build.outputs.image }}
-      digest: ${{ toJSON(needs.build.outputs) }}
-      registry-username: ${{ github.actor }}
-    secrets:
-      registry-password: ${{ secrets.GITHUB_TOKEN }}
+  #provenance:
+  #  needs:
+  #  - build
+  #  permissions:
+  #    actions: read
+  #    id-token: write
+  #    packages: write
+  #  strategy:
+  #    matrix:
+  #      DIGEST: ${{ needs.build.outputs.* }}
+  #  uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
+  #  with:
+  #    image: ${{ needs.build.outputs.image }}
+  #    digest: ${{ toJSON(needs.build.outputs) }}
+  #    registry-username: ${{ github.actor }}
+  #  secrets:
+  #    registry-password: ${{ secrets.GITHUB_TOKEN }}
