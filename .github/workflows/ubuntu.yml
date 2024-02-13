@@ -120,11 +120,10 @@ jobs:
         cat outputs.json
 
         IMAGES_JSON="$(
-            jq --compact-output '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}]' outputs.json
+            jq --compact-output '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}] | "images=\(.)"' outputs.json
         )"
-        echo "IMAGES_JSON=${IMAGES_JSON}"
 
-        echo "images="${IMAGES_JSON}" >>"$GITHUB_OUTPUT"
+        echo ${IMAGES_JSON} >>"$GITHUB_OUTPUT"
 
   provenance:
     needs:
