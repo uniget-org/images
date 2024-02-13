@@ -64,7 +64,7 @@ jobs:
       env:
         SOURCE_DATE_EPOCH: ${{ steps.set-source-date-epoch.outputs.SOURCE_DATE_EPOCH }}
       with:
-        context: ubuntu/${{ matrix.IMAGE_TAG }}
+        context: ubuntu
         platforms: linux/amd64,linux/arm64
         provenance: true
         sbom: true
