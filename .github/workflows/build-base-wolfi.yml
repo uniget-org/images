@@ -5,8 +5,8 @@ on:
     branches-ignore:
     - "renovate/**"
     paths:
-    - "wolfi/build-base/**"
-    - "!wolfi/build-base/README.md"
+    - "build-base/wolfi/**"
+    - "!build-base/wolfi/README.md"
     - ".github/workflows/wolfi-build-base.yml"
   pull_request:
     types:
@@ -15,8 +15,8 @@ on:
     - labeled
     - reopened
     paths:
-    - "wolfi/build-base/**"
-    - "!wolfi/build-base/README.md"
+    - "build-base/wolfi/**"
+    - "!build-base/wolfi/README.md"
     - ".github/workflows/wolfi-build-base.yml"
   schedule:
   - cron:  '0 7 * * *'
@@ -30,8 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: wolfi
-      IMAGE_TAG: build-base
+      IMAGE_NAME: build-base
+      IMAGE_TAG: wolfi
     steps:
 
     - name: Checkout
@@ -60,7 +60,7 @@ jobs:
       env:
         SOURCE_DATE_EPOCH: ${{ steps.set-source-date-epoch.outputs.SOURCE_DATE_EPOCH }}
       with:
-        context: wolfi/build-base
+        context: build-base/wolfi
         platforms: linux/amd64,linux/arm64
         provenance: true
         sbom: true
