@@ -32,7 +32,7 @@ jobs:
       REGISTRY: ghcr.io
       IMAGE_NAME: ubuntu
     strategy:
-      matrix.
+      matrix:
         IMAGE_TAG:
         - "22.04"
         - "24.04"
