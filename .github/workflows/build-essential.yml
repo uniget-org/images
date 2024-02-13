@@ -68,16 +68,16 @@ jobs:
         platforms: linux/amd64,linux/arm64
         provenance: true
         sbom: true
-        cache-from: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        cache-from: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
         build-args: |
           VERSION=${{ matrix.IMAGE_TAG }}
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        image-ref: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
