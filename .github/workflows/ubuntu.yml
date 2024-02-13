@@ -27,6 +27,7 @@ jobs:
     name: docker-build
     permissions:
       packages: write
+      id-token: write
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
@@ -80,7 +81,7 @@ jobs:
     - name: Sign
       env:
         COSIGN_EXPERIMENTAL: "true"
-      run: cosign sign -y ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
+      run: cosign sign ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
