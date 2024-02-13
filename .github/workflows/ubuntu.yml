@@ -40,8 +40,9 @@ jobs:
         - 22.04
         - 24.04
     outputs:
-      2204: ${{ steps.build.outputs.digest2204 }}
-      2404: ${{ steps.build.outputs.digest2404 }}
+      image: ${{ steps.metadata.outputs.image}}
+      2204: ${{ steps.metadata.outputs.digest2204 }}
+      2404: ${{ steps.metadata.outputs.digest2404 }}
     steps:
 
     - name: Checkout
@@ -81,9 +82,10 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
 
-    - name: Pass digest
-      id: digest
+    - name: Pass metadata
+      id: metadata
       run: |
+        echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>$GITHUB_OUTPUT
         echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
 
     - name: Install cosign
