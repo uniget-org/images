@@ -117,7 +117,7 @@ jobs:
         DIGEST: ${{ needs.build.outputs.* }}
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
     with:
-      image: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.DIGEST }}
+      image: ${{ needs.build.outputs.image }}
       digest: ${{ needs.build.outputs.digest }}
       registry-username: ${{ github.actor }}
     secrets:
