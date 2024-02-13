@@ -116,11 +116,11 @@ jobs:
     - name: transform
       id: transform
       run: |
-        OUTPUTS_JSON="${{ toJSON(needs.build.outputs) }}"
-        echo "OUTPUTS_JSON=${OUTPUTS_JSON}"
+        echo "${{ toJSON(needs.build.outputs) }}" >outputs.json
+        cat outputs.json
 
         IMAGES_JSON="$(
-            jq '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}]' <<<"${OUTPUTS_JSON}"
+            jq --compact-output '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}]' outputs.json
         )"
         echo "IMAGES_JSON=${IMAGES_JSON}"
 
