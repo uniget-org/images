@@ -42,8 +42,8 @@ jobs:
     outputs:
       image: ${{ steps.metadata.outputs.image}}
       digest: ${{ steps.metadata.outputs.digest}}
-      2204: ${{ steps.metadata.outputs.2204 }}
-      2404: ${{ steps.metadata.outputs.2404 }}
+      2204: ${{ steps.metadata.outputs.digest2204 }}
+      2404: ${{ steps.metadata.outputs.digest2404 }}
     steps:
 
     - name: Checkout
@@ -88,7 +88,7 @@ jobs:
       run: |
         echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>"$GITHUB_OUTPUT"
         echo "digest=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
-        echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" | tr -d '.' >>"$GITHUB_OUTPUT"
+        echo "digest${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" | tr -d '.' >>"$GITHUB_OUTPUT"
     - name: Install cosign
       uses: sigstore/cosign-installer@v3
 
