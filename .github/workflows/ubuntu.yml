@@ -85,7 +85,7 @@ jobs:
     - name: Pass metadata
       id: metadata
       run: |
-        echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>$GITHUB_OUTPUT
+        echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>"$GITHUB_OUTPUT"
         echo "${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" >>"$GITHUB_OUTPUT"
 
     - name: Install cosign
@@ -110,7 +110,9 @@ jobs:
     - build
     strategy:
       matrix:
-        DIGEST: ${{ needs.build.outputs.* }}
+        IMAGE_TAG:
+        - 22.04
+        - 24.04
     runs-on: ubuntu-latest
     steps:
     - name: test
