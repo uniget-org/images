@@ -116,7 +116,7 @@ jobs:
     - name: transform
       id: transform
       run: |
-        echo "${{ toJSON(needs.build.outputs) }}" >outputs.json
+        echo '${{ toJSON(needs.build.outputs) }}' >outputs.json
         cat outputs.json
 
         IMAGES_JSON="$(
