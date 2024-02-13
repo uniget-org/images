@@ -39,5 +39,5 @@ rm /usr/local/sbin/unminimize
 EOF
 
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
-      org.opencontainers.image.title="Ubuntu 22.04" \
-      org.opencontainers.image.description="Base image for Ubuntu 22.04"
+      org.opencontainers.image.title="Ubuntu ${VERSION}" \
+      org.opencontainers.image.description="Base image for Ubuntu ${VERSION}"

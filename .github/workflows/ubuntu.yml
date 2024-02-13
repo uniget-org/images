@@ -34,8 +34,8 @@ jobs:
     strategy:
       matrix:
         IMAGE_TAG:
-        - "22.04"
-        - "24.04"
+        - 22.04
+        - 24.04
     steps:
 
     - name: Checkout
