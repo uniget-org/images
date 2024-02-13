@@ -19,7 +19,7 @@ on:
     - "!alpine/3.19/README.md"
     - ".github/workflows/alpine-3.19.yml"
   schedule:
-  - cron:  '0 7 * * *'
+  - cron: '0 7 * * *'
   workflow_dispatch:
 
 jobs:

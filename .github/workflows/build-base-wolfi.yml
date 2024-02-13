@@ -19,7 +19,7 @@ on:
     - "!build-base/wolfi/README.md"
     - ".github/workflows/wolfi-build-base.yml"
   schedule:
-  - cron:  '0 7 * * *'
+  - cron: '0 7 * * *'
   workflow_dispatch:
 
 jobs:

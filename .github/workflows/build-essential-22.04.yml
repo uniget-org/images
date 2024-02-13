@@ -19,7 +19,7 @@ on:
     - "!build-essential/22.04/README.md"
     - ".github/workflows/build-essential-22.04.yml"
   schedule:
-  - cron:  '0 7 * * *'
+  - cron: '0 7 * * *'
   workflow_dispatch:
 
 jobs:
