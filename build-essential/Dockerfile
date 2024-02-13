@@ -1,6 +1,7 @@
 #syntax=docker/dockerfile:1.6.0
 
-FROM ghcr.io/uniget-org/images/ubuntu:22.04 AS base
+ARG VERSION=22.04
+FROM ghcr.io/uniget-org/images/ubuntu:${VERSION} AS base
 RUN <<EOF
 apt-get update
 apt-get -y install \
@@ -12,5 +13,5 @@ apt-get -y install \
     pkg-config
 EOF
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
-      org.opencontainers.image.title="Ubuntu 22.04 + build-essential" \
-      org.opencontainers.image.description="Ubuntu 22.04 + build-essential"
+      org.opencontainers.image.title="Ubuntu ${VERSION} + build-essential" \
+      org.opencontainers.image.description="Ubuntu ${VERSION} + build-essential"

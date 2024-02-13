@@ -5,9 +5,9 @@ on:
     branches-ignore:
     - "renovate/**"
     paths:
-    - "build-essential/22.04/**"
-    - "!build-essential/22.04/README.md"
-    - ".github/workflows/build-essential-22.04.yml"
+    - "build-essential/**"
+    - "!build-essential/*/README.md"
+    - ".github/workflows/build-essential.yml"
   pull_request:
     types:
     - opened
@@ -15,9 +15,9 @@ on:
     - labeled
     - reopened
     paths:
-    - "build-essential/22.04/**"
-    - "!build-essential/22.04/README.md"
-    - ".github/workflows/build-essential-22.04.yml"
+    - "build-essential/**"
+    - "!build-essential/*/README.md"
+    - ".github/workflows/build-essential.yml"
   schedule:
   - cron: '0 7 * * *'
   workflow_dispatch:
@@ -31,7 +31,11 @@ jobs:
     env:
       REGISTRY: ghcr.io
       IMAGE_NAME: build-essential
-      IMAGE_TAG: 22.04
+    strategy:
+      matrix:
+        IMAGE_TAG:
+        - 22.04
+        - 24.04
     steps:
 
     - name: Checkout
@@ -60,18 +64,20 @@ jobs:
       env:
         SOURCE_DATE_EPOCH: ${{ steps.set-source-date-epoch.outputs.SOURCE_DATE_EPOCH }}
       with:
-        context: build-essential/22.04
+        context: build-essential
         platforms: linux/amd64,linux/arm64
         provenance: true
         sbom: true
-        cache-from: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        cache-from: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        build-args: |
+          VERSION=${{ matrix.IMAGE_TAG }}
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        image-ref: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
