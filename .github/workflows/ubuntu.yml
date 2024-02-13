@@ -52,7 +52,7 @@ jobs:
     - name: Set SOURCE_DATE_EPOCH
       id: set-source-date-epoch
       run: |
-        echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >>"${GITHUB_OUTPUT}"
+        echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct ubuntu/Dockerfile)" >>"${GITHUB_OUTPUT}"
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3

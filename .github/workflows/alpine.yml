@@ -44,7 +44,7 @@ jobs:
     - name: Set SOURCE_DATE_EPOCH
       id: set-source-date-epoch
       run: |
-        echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >>"${GITHUB_ENV}"
+        echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct alpine/Dockerfile)" >>"${GITHUB_ENV}"
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
