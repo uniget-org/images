@@ -41,8 +41,9 @@ jobs:
         - 24.04
     outputs:
       image: ${{ steps.metadata.outputs.image}}
-      2204: ${{ steps.metadata.outputs.digest2204 }}
-      2404: ${{ steps.metadata.outputs.digest2404 }}
+      digest: ${{ steps.metadata.outputs.digest}}
+      2204: ${{ steps.metadata.outputs.2204 }}
+      2404: ${{ steps.metadata.outputs.2404 }}
     steps:
 
     - name: Checkout
