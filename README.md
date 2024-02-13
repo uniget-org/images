@@ -18,6 +18,6 @@ Alpine 3.19 plus a few useful tools
 
 Alpine 3.19 plus tools for building C/C++
 
-## `wolfi:build-base`
+## `build-base:wolfi`
 
 Wolfi OS plus tools for building C/C++
