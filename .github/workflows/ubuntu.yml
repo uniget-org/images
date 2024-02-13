@@ -104,6 +104,17 @@ jobs:
         exit-code: '1'
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
+  
+  test:
+    needs:
+    - build
+    strategy:
+      matrix:
+        DIGEST: ${{ needs.build.outputs.* }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: test
+      run: echo "${{ toJSON(needs.build.outputs) }}"
 
   provenance:
     needs:
@@ -118,7 +129,7 @@ jobs:
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
     with:
       image: ${{ needs.build.outputs.image }}
-      digest: ${{ needs.build.outputs.digest }}
+      digest: ${{ toJSON(needs.build.outputs) }}
       registry-username: ${{ github.actor }}
     secrets:
       registry-password: ${{ secrets.GITHUB_TOKEN }}
