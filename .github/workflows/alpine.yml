@@ -27,6 +27,7 @@ jobs:
     name: docker-build
     permissions:
       packages: write
+      id-token: write
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
@@ -59,6 +60,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
+      id: build
       uses: docker/build-push-action@v5
       env:
         SOURCE_DATE_EPOCH: ${{ steps.set-source-date-epoch.outputs.SOURCE_DATE_EPOCH }}
@@ -72,6 +74,14 @@ jobs:
           VERSION=${{ matrix.IMAGE_TAG }}
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
+
+    - name: Install cosign
+      uses: sigstore/cosign-installer@v3
+
+    - name: Sign
+      env:
+        COSIGN_EXPERIMENTAL: "true"
+      run: cosign sign -y ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
