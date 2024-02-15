@@ -9,6 +9,7 @@ apk add --update-cache --no-cache \
     ca-certificates \
     jq \
     binutils \
+    findutils \
     unzip \
     xz \
     less \
