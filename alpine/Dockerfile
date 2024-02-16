@@ -10,6 +10,7 @@ apk add --update-cache --no-cache \
     jq \
     binutils \
     findutils \
+    coreutils \
     unzip \
     xz \
     less \
