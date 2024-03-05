@@ -120,7 +120,7 @@ jobs:
         cat outputs.json
 
         IMAGES_JSON="$(
-            jq --compact-output '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}] | "images=\(.)"' outputs.json
+            jq --compact-output --raw-output '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}] | "images=\(.)"' outputs.json
         )"
 
         echo ${IMAGES_JSON}
@@ -135,7 +135,7 @@ jobs:
       packages: write
     strategy:
       matrix:
-        images: ${{ needs.transform.outputs.images }}
+        images: ${{ fromJson(needs.transform.outputs.images) }}
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
     with:
       image: ${{ matrix.images.image }}
