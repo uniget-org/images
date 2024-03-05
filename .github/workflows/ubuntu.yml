@@ -133,7 +133,7 @@ jobs:
       id-token: write
       packages: write
     strategy:
-      matrix: ${{ needs.transform.outputs }}
+      matrix: ${{ fromJSON(needs.transform.outputs) }}
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
     with:
       image: ${{ matrix.image.image }}
