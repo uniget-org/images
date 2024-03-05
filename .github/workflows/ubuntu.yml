@@ -133,11 +133,12 @@ jobs:
       id-token: write
       packages: write
     strategy:
-      matrix: ${{ fromJSON(needs.transform.outputs.images) }}
+      matrix:
+        images: ${{ needs.transform.outputs.images }}
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
     with:
-      image: ${{ matrix.image.image }}
-      digest: ${{ matrix.image.digest }}
+      image: ${{ matrix.images.image }}
+      digest: ${{ matrix.images.digest }}
       registry-username: ${{ github.actor }}
     secrets:
       registry-password: ${{ secrets.GITHUB_TOKEN }}
