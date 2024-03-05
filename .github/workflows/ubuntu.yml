@@ -123,6 +123,7 @@ jobs:
             jq --compact-output '. as $everything | [ to_entries[] | select(.key | startswith("digest")) | {"image": $everything.image, "digest": .value}] | "images=\(.)"' outputs.json
         )"
 
+        echo ${IMAGES_JSON}
         echo ${IMAGES_JSON} >>"$GITHUB_OUTPUT"
 
   provenance:
