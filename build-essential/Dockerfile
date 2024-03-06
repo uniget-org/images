@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.6.0
+#syntax=docker/dockerfile:1.7.0
 
 ARG VERSION=22.04
 FROM ghcr.io/uniget-org/images/ubuntu:${VERSION} AS base
