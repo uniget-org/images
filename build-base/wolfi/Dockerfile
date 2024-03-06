@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.6.0
+#syntax=docker/dockerfile:1.7.0
 
 FROM cgr.dev/chainguard/wolfi-base:latest AS base
 RUN <<EOF
