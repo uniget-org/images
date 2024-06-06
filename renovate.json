@@ -1,3 +1,19 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    ":dockerfileVersions"
+  ],
+  "automerge": true,
+  "docker": {
+      "pinDigests": true
+  },
+  "customManagers": [
+    {
+      "customType":           "regex",
+      "fileMatch":          [ "(^|/|\\.)Dockerfile[^/]*$" ],
+      "matchStrings":       [ "#syntax=(?<depName>.*?):(?<currentValue>.*?)\\n" ],
+      "datasourceTemplate":   "docker",
+      "depNameTemplate":      "docker/dockerfile"
+    }
+  ]
 }
