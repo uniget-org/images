@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.6.0@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#syntax=docker/dockerfile:1.7.1@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
 
 ARG VERSION=3.19
 FROM ghcr.io/uniget-org/images/alpine:${VERSION} AS base
