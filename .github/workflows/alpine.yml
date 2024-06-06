@@ -77,14 +77,17 @@ jobs:
         tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
 
     - name: Install cosign
+      if: ${{ github.event_name != 'pull_request' }}
       uses: sigstore/cosign-installer@v3
 
     - name: Sign
+      if: ${{ github.event_name != 'pull_request' }}
       env:
         COSIGN_EXPERIMENTAL: "true"
       run: cosign sign -y ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
 
     - name: Run Trivy vulnerability scanner
+      if: ${{ github.event_name != 'pull_request' }}
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
