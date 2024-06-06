@@ -7,6 +7,7 @@
   "docker": {
       "pinDigests": true
   },
+  "rebaseWhen": "conflicted",
   "packageRules": [
     {
       "matchFileNames": [
