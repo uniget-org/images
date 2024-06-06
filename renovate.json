@@ -23,6 +23,7 @@
     },
     {
       "matchFileNames": [
+        "ubuntu/**",
         "build-essential/**"
       ],
       "matchManagers": ["dockerfile"],
