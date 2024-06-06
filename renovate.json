@@ -11,11 +11,20 @@
     {
       "matchFileNames": [
         "alpine/**",
-        "build-base/**",
+        "build-base/**"
+      ],
+      "matchManagers": ["dockerfile"],
+      "matchDatasources": ["docker"],
+      "matchDepNames": ["alpine"],
+      "enabled": false
+    },
+    {
+      "matchFileNames": [
         "build-essential/**"
       ],
       "matchManagers": ["dockerfile"],
-      "matchUpdateTypes": ["minor", "major"],
+      "matchDatasources": ["docker"],
+      "matchDepNames": ["ubuntu"],
       "enabled": false
     }
   ],
