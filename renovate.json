@@ -15,7 +15,10 @@
       ],
       "matchManagers": ["dockerfile"],
       "matchDatasources": ["docker"],
-      "matchDepNames": ["alpine"],
+      "matchDepNames": [
+        "alpine",
+        "ghcr.io/uniget-org/images/alpine"
+      ],
       "enabled": false
     },
     {
@@ -24,7 +27,10 @@
       ],
       "matchManagers": ["dockerfile"],
       "matchDatasources": ["docker"],
-      "matchDepNames": ["ubuntu"],
+      "matchDepNames": [
+        "ubuntu",
+        "ghcr.io/uniget-org/images/ubuntu"
+      ],
       "enabled": false
     }
   ],
