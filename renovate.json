@@ -7,6 +7,18 @@
   "docker": {
       "pinDigests": true
   },
+  "packageRules": [
+    {
+      "matchFileNames": [
+        "alpine/**",
+        "build-base/**",
+        "build-essential/**"
+      ],
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["minor", "major"],
+      "enabled": false
+    }
+  ],
   "customManagers": [
     {
       "customType":           "regex",
