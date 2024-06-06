@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.6.0
 
-ARG VERSION=22.04
+ARG VERSION=24.04@sha256:e3f92abc0967a6c19d0dfa2d55838833e947b9d74edbcb0113e48535ad4be12a
 FROM ubuntu:${VERSION} AS base
 
 SHELL [ "bash", "-o", "errexit", "-c"]
