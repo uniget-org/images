@@ -62,7 +62,7 @@ jobs:
 
     - name: Build
       id: build
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       env:
         SOURCE_DATE_EPOCH: ${{ steps.set-source-date-epoch.outputs.SOURCE_DATE_EPOCH }}
       with:
