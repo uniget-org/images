@@ -15,7 +15,8 @@ apk add --update-cache --no-cache \
     xz \
     less \
     vim \
-    git
+    git \
+    zstd
 EOF
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
       org.opencontainers.image.title="Alpine ${VERSION} + build-base" \

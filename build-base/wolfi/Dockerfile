@@ -16,7 +16,8 @@ apk add --update-cache --no-cache \
     automake \
     libtool \
     build-base \
-    pkgconf
+    pkgconf \
+    zstd
 EOF
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
       org.opencontainers.image.title="wolfi + build-base" \

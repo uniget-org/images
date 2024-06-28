@@ -34,7 +34,8 @@ apt-get -y install \
     jq \
     unzip \
     binutils \
-    xz-utils
+    xz-utils \
+    zstd
 rm /usr/local/sbin/unminimize
 EOF
 
