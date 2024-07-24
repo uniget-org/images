@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.9.0@sha256:fe40cf4e92cd0c467be2cfc30657a680ae2398318afd50b0c80585784c604f28
 
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:d6b37317ae7cb5c0864189e9e5acd825386ae226a413e7c19370f5f87d150f92 AS base
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:832e4480a41142ae250bc6f1d4494b45bd7bb7eb30f436d8b50a4b1c86cce9cf AS base
 RUN <<EOF
 apk add --update-cache --no-cache \
     bash \
