@@ -10,6 +10,8 @@ apk add --update-cache --no-cache \
     build-base \
     pkgconf
 EOF
+
+ARG VERSION
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
       org.opencontainers.image.title="Alpine ${VERSION} + build-base" \
       org.opencontainers.image.description="Alpine ${VERSION} + build-base"

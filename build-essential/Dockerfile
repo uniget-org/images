@@ -12,6 +12,8 @@ apt-get -y install \
     build-essential \
     pkg-config
 EOF
+
+ARG VERSION
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
       org.opencontainers.image.title="Ubuntu ${VERSION} + build-essential" \
       org.opencontainers.image.description="Ubuntu ${VERSION} + build-essential"

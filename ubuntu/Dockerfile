@@ -36,9 +36,10 @@ apt-get -y install \
     binutils \
     xz-utils \
     zstd
-rm /usr/local/sbin/unminimize
+rm -f /usr/local/sbin/unminimize
 EOF
 
+ARG VERSION
 LABEL org.opencontainers.image.source="https://github.com/uniget-org/images" \
       org.opencontainers.image.title="Ubuntu ${VERSION}" \
       org.opencontainers.image.description="Base image for Ubuntu ${VERSION}"
