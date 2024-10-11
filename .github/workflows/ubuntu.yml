@@ -112,6 +112,8 @@ jobs:
         exit-code: '1'
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   transform:
     if: ${{ github.event_name != 'pull_request' }}
