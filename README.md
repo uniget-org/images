@@ -2,21 +2,21 @@
 
 Base images used by [uniget-org/tools](https://github.com/uniget-org/tools)
 
-## `ubuntu:22.04`
+## `ubuntu:24.04` / `ubuntu:22.04`
 
-Ubuntu 22.04 plus a few useful tools
+Ubuntu 22.04 / 24.04 plus a few useful tools
 
-## `build-essential:22.04`
+## `build-essential:24.04` / `build-essential:22.04`
 
-Ubuntu 22.04 plus tools for building C/C++
+Ubuntu 22.04 / 24.04 plus tools for building C/C++
 
-## `alpine:3.19`
+## `alpine:3.19` / `alpine:3.20`
 
-Alpine 3.19 plus a few useful tools
+Alpine 3.19 / 3.20 plus a few useful tools
 
-## `build-base:3.19`
+## `build-base:3.19` / `build-base:3.20`
 
-Alpine 3.19 plus tools for building C/C++
+Alpine 3.19 / 3.20 plus tools for building C/C++
 
 ## `build-base:wolfi`
 
