@@ -84,7 +84,7 @@ jobs:
         build-args: |
           VERSION=${{ matrix.IMAGE_TAG }}
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ matrix.IMAGE_TAG }}
+        tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:ubuntu${{ matrix.IMAGE_TAG }}
 
     - name: Pass metadata
       id: metadata

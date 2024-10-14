@@ -1,4 +1,7 @@
-FROM ghcr.io/uniget-org/images/ubuntu:24.04@sha256:ca7ea18112ed6b29e2f0c12b903946cac2d76f6c6fd5e3d40418c68e56296182
+#syntax=docker/dockerfile:1.10.0@sha256:865e5dd094beca432e8c0a1d5e1c465db5f998dca4e439981029b3b81fb39ed5
+
+ARG VERSION=22.04
+FROM ghcr.io/uniget-org/images/ubuntu:${VERSION}
 ENV container=docker \
     LC_ALL=C \
     DEBIAN_FRONTEND=noninteractive
