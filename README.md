@@ -21,3 +21,21 @@ Alpine 3.19 plus tools for building C/C++
 ## `build-base:wolfi`
 
 Wolfi OS plus tools for building C/C++
+
+## `systemd:ubuntu24.04`
+
+SystemD enabled Ubuntu 24.04
+
+The following command starts systemd in the container:
+
+```bash
+docker run \
+    --interactive \
+    --tty \
+    --rm \
+    --privileged \
+    --cgroupns=host \
+    --volume /sys/fs/cgroup:/sys/fs/cgroup:rw \
+    ghcr.io/nicholasdille/systemd-uniget \
+        bash
+```
