@@ -39,3 +39,10 @@ docker run \
     ghcr.io/nicholasdille/systemd-uniget \
         bash
 ```
+
+If running in WSL, you may need to enforce cgroupv2 exclusively in `.wslconfig`:
+
+```plaintext
+[wsl2]
+kernelCommandLine=cgroup_no_v1=all systemd.unified_cgroup_hierarchy=1
+```
