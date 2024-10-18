@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.10.0@sha256:865e5dd094beca432e8c0a1d5e1c465db5f998dca4e439981029b3b81fb39ed5
 
-ARG VERSION=24.04@sha256:6d897328423771d3c7e2b1174466b79f31f891c75ea177495ae7720c7c06cff6
+ARG VERSION=24.04@sha256:b1970444b754ef3a781442ed39a81c6b2072e4340c281f56728d34fe5fdeb984
 FROM ghcr.io/uniget-org/images/ubuntu:${VERSION}
 ENV container=docker \
     LC_ALL=C \
