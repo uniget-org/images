@@ -14,10 +14,10 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-if [ ! -t 0 ]; then
-	echo >&2 'ERROR: TTY needs to be enabled (`docker run -t ...`).'
-	exit 1
-fi
+#if [ ! -t 0 ]; then
+#	echo >&2 'ERROR: TTY needs to be enabled (`docker run -t ...`).'
+#	exit 1
+#fi
 
 # Change mount propagation to shared, which SystemD PID 1 would normally do
 # itself when started by the kernel. SystemD skips that when it detects it is
