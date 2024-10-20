@@ -39,11 +39,8 @@ jobs:
     strategy:
       matrix:
         IMAGE_TAG:
+        - 22.04
         - 24.04
-    outputs:
-      image: ${{ steps.metadata.outputs.image }}
-      digest2204: ${{ steps.metadata.outputs.digest2204 }}
-      digest2404: ${{ steps.metadata.outputs.digest2404 }}
     steps:
 
     - name: Checkout
@@ -85,12 +82,6 @@ jobs:
           VERSION=${{ matrix.IMAGE_TAG }}
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:ubuntu${{ matrix.IMAGE_TAG }}
-
-    - name: Pass metadata
-      id: metadata
-      run: |
-        echo "image=${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}" >>"$GITHUB_OUTPUT"
-        echo "digest${{ matrix.IMAGE_TAG }}=${{ steps.build.outputs.digest }}" | tr -d '.' >>"$GITHUB_OUTPUT"
 
     - name: Install cosign
       if: ${{ github.event_name != 'pull_request' }}
