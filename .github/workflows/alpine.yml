@@ -41,6 +41,7 @@ jobs:
         IMAGE_TAG:
         - "3.19"
         - "3.20"
+        - latest
     steps:
 
     - name: Checkout

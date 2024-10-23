@@ -41,6 +41,7 @@ jobs:
         IMAGE_TAG:
         - 22.04
         - 24.04
+        - rolling
     steps:
 
     - name: Checkout

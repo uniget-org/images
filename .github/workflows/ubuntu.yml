@@ -41,6 +41,7 @@ jobs:
         IMAGE_TAG:
         - 22.04
         - 24.04
+        - rolling
     outputs:
       image: ${{ steps.metadata.outputs.image }}
       digest2204: ${{ steps.metadata.outputs.digest2204 }}
