@@ -1,8 +1,12 @@
-stages:
-- build
+.docker-login:
+  before_script:
+  - |
+    echo "${CI_REGISTRY_PASSWORD}" \
+    | docker login "${CI_REGISTRY}" \
+        --username "${CI_REGISTRY_USER}" \
+        --password-stdin
 
-ubuntu:
-  stage: build
+ubuntu-build:
   parallel:
     matrix:
     - VERSION:
@@ -13,21 +17,36 @@ ubuntu:
       - "arm64"
   services:
   - docker:27.3.1-dind
+  extends:
+  - .docker-login
   image: docker:27.3.1
-  before_script:
+  script:
   - |
     SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct ubuntu/Dockerfile)"
     export SOURCE_DATE_EPOCH
   - |
-    echo "${CI_REGISTRY_PASSWORD}" \
-    | docker login "${CI_REGISTRY}" \
-        --username "${CI_REGISTRY_USER}" \
-        --password-stdin
-  script:
-  - |
     docker buildx build ubuntu \
-        --build-arg VERSION \
-        --tag "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-${ARCH}" \
+        --build-arg=VERSION \
+        --cache-to=type=inline,mode=min \
+        --cache-from=type=registry,ref="${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-${ARCH}" \
+        --tag="${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-${ARCH}" \
         --push
   tags:
   - saas-linux-medium-${ARCH}
+
+ubuntu-index:
+  needs:
+  - ubuntu-build
+  parallel:
+    matrix:
+    - VERSION:
+      - "24.04"
+      - "rolling"
+  extends:
+  - .docker-login
+  image: docker:27.3.1
+  script:
+  - |
+    docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}" \
+        "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-amd64" \
+        "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-arm64"
