@@ -22,6 +22,9 @@
     SOURCE_DATE_EPOCH="$( git log -1 --pretty=%ct "${BUILD_CONTEXT}/Dockerfile" )"
     export SOURCE_DATE_EPOCH
   - |
+    echo "### Building ${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}"
+    echo "    Using build args: ${BUILD_ARGS}"
+    echo "    Pushing image: ${PUSH}"
     docker buildx build "${BUILD_CONTEXT}" \
         --build-arg=${BUILD_ARGS} \
         --cache-to=type=inline,mode=min \
@@ -35,6 +38,7 @@
   - .docker-login
   script:
   - |
+    echo "### Creating multi-arch image for ${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}"
     docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}" \
         "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}-amd64" \
         "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}-arm64"
