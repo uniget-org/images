@@ -9,6 +9,7 @@
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     changes:
     - wolfi/Dockerfile
+    - templates/wolfi.yaml
     variables:
       PUSH: "false"
   - if: $CI_PIPELINE_SOURCE == "web"
