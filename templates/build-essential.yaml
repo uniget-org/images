@@ -1,6 +1,6 @@
 .build-essential-rules:
   rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     changes:
     - build-essential/Dockerfile
     - templates/build-essential.yaml

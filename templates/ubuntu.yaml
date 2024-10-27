@@ -1,6 +1,6 @@
 .ubuntu-rules:
   rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     changes:
     - ubuntu/Dockerfile
     - templates/ubuntu.yaml
