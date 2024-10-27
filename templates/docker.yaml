@@ -29,8 +29,11 @@
     echo "### Building ${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}"
     echo "    Using build args: ${BUILD_ARGS}"
     echo "    Pushing image: ${PUSH}"
+    for BUILD_ARG in ${BUILD_ARGS}; do
+        BUILD_ARG_PARAMETERS="${BUILD_ARG_PARAMETERS} --build-arg=${BUILD_ARG}"
+    done
     docker buildx build "${BUILD_CONTEXT}" \
-        --build-arg=${BUILD_ARGS} \
+        ${BUILD_ARGS_PARAMETERS} \
         --cache-to=type=inline,mode=min \
         --cache-from=type=registry,ref="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}" \
         --tag="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}" \
