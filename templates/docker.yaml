@@ -14,13 +14,17 @@
 .docker-build:
   extends:
   - .docker
-  - .docker-login
   services:
   - docker:27.3.1-dind
   script:
   - |
     SOURCE_DATE_EPOCH="$( git log -1 --pretty=%ct "${BUILD_CONTEXT}/Dockerfile" )"
     export SOURCE_DATE_EPOCH
+  - |
+    echo "${CI_REGISTRY_PASSWORD}" \
+    | docker login "${CI_REGISTRY}" \
+        --username "${CI_REGISTRY_USER}" \
+        --password-stdin
   - |
     echo "### Building ${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}"
     echo "    Using build args: ${BUILD_ARGS}"

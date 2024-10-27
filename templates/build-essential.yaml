@@ -34,8 +34,6 @@ build-essential-build:
     BUILD_ARGS: VERSION,TAG
   before_script:
   - |
-    !reference [.docker-login, before_script]
-  - |
     sed -i -E 's/ghcr.io/registry.gitlab.com/g; s/github.com/gitlab.com/g' ${BUILD_CONTEXT}/Dockerfile
   tags:
   - saas-linux-medium-${ARCH}
