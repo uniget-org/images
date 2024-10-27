@@ -1,4 +1,5 @@
 include:
+- local: templates/renovate.yaml
 - local: templates/docker.yaml
 - local: templates/ubuntu.yaml
 - local: templates/build-essential.yaml
