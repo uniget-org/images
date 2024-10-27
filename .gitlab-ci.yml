@@ -1,3 +1,11 @@
+variables:
+  BUILD_UBUNTU:
+    description: Whether to build the Ubuntu image
+    value: "true"
+    options:
+    - "true"
+    - "false"
+
 .docker-login:
   before_script:
   - |
@@ -18,7 +26,7 @@ ubuntu-build:
     - ubuntu/Dockerfile
     variables:
       PUSH: "false"
-  - if: $CI_PIPELINE_SOURCE == "web"
+  - if: $CI_PIPELINE_SOURCE == "web" && $BUILD_UBUNTU == "true"
     variables:
       PUSH: "true"
   parallel:
