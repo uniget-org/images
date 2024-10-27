@@ -37,8 +37,7 @@ build-base-build:
     TAG: ${VERSION}-${ARCH}
     BUILD_ARGS: VERSION
   before_script:
-  - |
-    printenv | sort
+  - printenv | sort
   - |
     sed -i -E 's/ghcr.io/registry.gitlab.com/g; s/github.com/gitlab.com/g' ${BUILD_CONTEXT}/Dockerfile
   tags:
