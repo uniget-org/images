@@ -1,0 +1,48 @@
+.ubuntu-rules:
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    changes:
+    - ubuntu/Dockerfile
+    variables:
+      PUSH: "true"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - ubuntu/Dockerfile
+    variables:
+      PUSH: "false"
+  - if: $CI_PIPELINE_SOURCE == "web"
+    variables:
+      PUSH: "true"
+
+ubuntu-build:
+  parallel:
+    matrix:
+    - VERSION:
+      - "24.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .ubuntu-rules
+  - .docker-build
+  variables:
+    IMAGE_NAME: ubuntu
+    BUILD_CONTEXT: ubuntu
+    BUILD_ARGS: VERSION
+  tags:
+  - saas-linux-medium-${ARCH}
+
+ubuntu-index:
+  needs:
+  - ubuntu-build
+  parallel:
+    matrix:
+    - TAG:
+      - "24.04"
+      - "rolling"
+  extends:
+  - .ubuntu-rules
+  - .docker-index
+  variables:
+    IMAGE_NAME: ubuntu

@@ -1,0 +1,40 @@
+.docker:
+  image: docker:27.3.1
+
+.docker-login:
+  extends:
+  - .docker
+  before_script:
+  - |
+    echo "${CI_REGISTRY_PASSWORD}" \
+    | docker login "${CI_REGISTRY}" \
+        --username "${CI_REGISTRY_USER}" \
+        --password-stdin
+
+.docker-build:
+  extends:
+  - .docker
+  - .docker-login
+  services:
+  - docker:27.3.1-dind
+  script:
+  - |
+    SOURCE_DATE_EPOCH="$( git log -1 --pretty=%ct "${IMAGE_NAME}/Dockerfile" )"
+    export SOURCE_DATE_EPOCH
+  - |
+    docker buildx build "${BUILD_CONTEXT}" \
+        --build-arg=${BUILD_ARGS} \
+        --cache-to=type=inline,mode=min \
+        --cache-from=type=registry,ref="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-${ARCH}" \
+        --tag="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-${ARCH}" \
+        --push="${PUSH}"
+
+.docker-index:
+  extends:
+  - .docker
+  - .docker-login
+  script:
+  - |
+    docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}" \
+        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}-amd64" \
+        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}-arm64"
