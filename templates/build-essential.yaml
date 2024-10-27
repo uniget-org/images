@@ -35,7 +35,7 @@ build-essential-build:
     IMAGE_NAME: build-essential
     BUILD_CONTEXT: build-essential
     TAG: ${VERSION}-${ARCH}
-    BUILD_ARGS: VERSION TAG
+    BUILD_ARGS: VERSION
   before_script:
   - |
     sed -i -E 's/ghcr.io/registry.gitlab.com/g; s/github.com/gitlab.com/g' ${BUILD_CONTEXT}/Dockerfile
