@@ -7,3 +7,6 @@ include:
 - local: templates/build-base.yaml
 - local: templates/wolfi.yaml
 - local: templates/systemd.yaml
+- project: uniget-org/templates
+  file: renovate.yaml
+  ref: main
