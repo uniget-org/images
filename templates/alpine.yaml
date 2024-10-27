@@ -1,0 +1,49 @@
+.alpine-rules:
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    changes:
+    - alpine/Dockerfile
+    - templates/alpine.yaml
+    variables:
+      PUSH: "true"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - alpine/Dockerfile
+    variables:
+      PUSH: "false"
+  - if: $CI_PIPELINE_SOURCE == "web"
+    variables:
+      PUSH: "true"
+
+alpine-build:
+  parallel:
+    matrix:
+    - VERSION:
+      - "3.20"
+      - "latest"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .alpine-rules
+  - .docker-build
+  variables:
+    IMAGE_NAME: alpine
+    BUILD_CONTEXT: alpine
+    BUILD_ARGS: VERSION
+  tags:
+  - saas-linux-medium-${ARCH}
+
+alpine-index:
+  needs:
+  - alpine-build
+  parallel:
+    matrix:
+    - TAG:
+      - "3.20"
+      - "latest"
+  extends:
+  - .alpine-rules
+  - .docker-index
+  variables:
+    IMAGE_NAME: alpine
