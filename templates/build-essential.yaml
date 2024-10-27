@@ -1,0 +1,56 @@
+.build-essential-rules:
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    changes:
+    - build-essential/Dockerfile
+    - templates/build-essential.yaml
+    variables:
+      PUSH: "true"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - build-essential/Dockerfile
+    variables:
+      PUSH: "false"
+  - if: $CI_PIPELINE_SOURCE == "web"
+    variables:
+      PUSH: "true"
+
+build-essential-build:
+  parallel:
+    matrix:
+    - VERSION:
+      - "24.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .build-essential-rules
+  - .docker-build
+  variables:
+    IMAGE_NAME: build-essential
+    BUILD_CONTEXT: build-essential
+    TAG: ${VERSION}-${ARCH}
+    BUILD_ARGS: VERSION,TAG
+  before_script:
+  - |
+    !reference [.docker-login, before_script]
+  - |
+    sed -i -E 's/ghcr.io/registry.gitlab.com/g; s/github.com/gitlab.com/g' ${BUILD_CONTEXT}/Dockerfile
+  tags:
+  - saas-linux-medium-${ARCH}
+
+build-essential-index:
+  needs:
+  - build-essential-build
+  parallel:
+    matrix:
+    - VERSION:
+      - "24.04"
+      - "rolling"
+  extends:
+  - .build-essential-rules
+  - .docker-index
+  variables:
+    IMAGE_NAME: build-essential
+    TAG: ${VERSION}

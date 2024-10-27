@@ -1,5 +1,6 @@
 include:
 - local: templates/docker.yaml
 - local: templates/ubuntu.yaml
+- local: templates/build-essential.yaml
 - local: templates/alpine.yaml
 - local: templates/wolfi.yaml
