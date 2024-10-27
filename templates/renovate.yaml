@@ -9,7 +9,6 @@ renovate:
   variables:
     RENOVATE_PLATFORM: gitlab
     RENOVATE_ENDPOINT: "${CI_API_V4_URL}"
-    RENOVATE_TOKEN: "${CI_JOB_TOKEN}"
     RENOVATE_AUTODISCOVER: "false"
     LOG_LEVEL: "debug"
     #LOG_FORMAT: "json"
