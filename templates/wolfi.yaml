@@ -27,7 +27,8 @@ wolfi-build:
   variables:
     IMAGE_NAME: build-base
     BUILD_CONTEXT: build-base/wolfi
-    BUILD_ARGS: "TAG=wolfi-${ARCH}"
+    TAG: wolfi-${ARCH}
+    BUILD_ARGS: TAG
   tags:
   - saas-linux-medium-${ARCH}
 

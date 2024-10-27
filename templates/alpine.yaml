@@ -30,7 +30,8 @@ alpine-build:
   variables:
     IMAGE_NAME: alpine
     BUILD_CONTEXT: alpine
-    BUILD_ARGS: VERSION,TAG=${VERSION}-${ARCH}
+    TAG: ${VERSION}-${ARCH}
+    BUILD_ARGS: VERSION,TAG
   tags:
   - saas-linux-medium-${ARCH}
 

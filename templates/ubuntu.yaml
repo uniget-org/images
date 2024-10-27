@@ -30,7 +30,8 @@ ubuntu-build:
   variables:
     IMAGE_NAME: ubuntu
     BUILD_CONTEXT: ubuntu
-    BUILD_ARGS: VERSION,TAG=${VERSION}-${ARCH}
+    TAG: ${VERSION}-${ARCH}
+    BUILD_ARGS: VERSION,TAG
   tags:
   - saas-linux-medium-${ARCH}
 
