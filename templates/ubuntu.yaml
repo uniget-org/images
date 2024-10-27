@@ -3,6 +3,7 @@
   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     changes:
     - ubuntu/Dockerfile
+    - templates/ubuntu.yaml
     variables:
       PUSH: "true"
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
