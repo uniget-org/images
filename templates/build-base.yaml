@@ -38,6 +38,8 @@ build-base-build:
     BUILD_ARGS: VERSION
   before_script:
   - |
+    printenv
+  - |
     sed -i -E 's/ghcr.io/registry.gitlab.com/g; s/github.com/gitlab.com/g' ${BUILD_CONTEXT}/Dockerfile
   tags:
   - saas-linux-medium-${ARCH}
