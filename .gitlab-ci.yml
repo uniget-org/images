@@ -5,7 +5,7 @@ ubuntu:
   stage: build
   parallel:
     matrix:
-    - TAG:
+    - VERSION:
       - "24.04"
       - "rolling"
       ARCH:
@@ -19,6 +19,10 @@ ubuntu:
     SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct ubuntu/Dockerfile)"
     export SOURCE_DATE_EPOCH
   script:
-  - docker version
+  - |
+    docker buildx build . \
+        --build-arg VERSION \
+        --tag "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-${ARCH}" \
+        --push
   tags:
   - saas-linux-medium-${ARCH}
