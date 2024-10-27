@@ -1,0 +1,58 @@
+.systemd-rules:
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    changes:
+    - systemd/Dockerfile
+    - templates/systemd.yaml
+    variables:
+      PUSH: "true"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - systemd/Dockerfile
+    - templates/systemd.yaml
+    variables:
+      PUSH: "false"
+  - if: $CI_PIPELINE_SOURCE == "web"
+    variables:
+      PUSH: "true"
+  - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_JOB == "daily_rebuild"
+    variables:
+      PUSH: "true"
+
+systemd-build:
+  parallel:
+    matrix:
+    - VERSION:
+      - "24.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .systemd-rules
+  - .docker-build
+  variables:
+    IMAGE_NAME: systemd
+    BUILD_CONTEXT: systemd
+    TAG: ${VERSION}-${ARCH}
+    BUILD_ARGS: VERSION,TAG
+  before_script:
+  - |
+    sed -i -E 's/ghcr.io/registry.gitlab.com/g; s/github.com/gitlab.com/g' ${BUILD_CONTEXT}/Dockerfile
+  tags:
+  - saas-linux-medium-${ARCH}
+
+systemd-index:
+  needs:
+  - systemd-build
+  parallel:
+    matrix:
+    - VERSION:
+      - "24.04"
+      - "rolling"
+  extends:
+  - .systemd-rules
+  - .docker-index
+  variables:
+    IMAGE_NAME: systemd
+    TAG: ${VERSION}

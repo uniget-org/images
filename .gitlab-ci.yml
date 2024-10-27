@@ -4,4 +4,6 @@ include:
 - local: templates/ubuntu.yaml
 - local: templates/build-essential.yaml
 - local: templates/alpine.yaml
+- local: templates/build-base.yaml
 - local: templates/wolfi.yaml
+- local: templates/systemd.yaml
