@@ -32,8 +32,6 @@
     for BUILD_ARG in ${BUILD_ARGS}; do
         BUILD_ARG_PARAMETERS="${BUILD_ARG_PARAMETERS} --build-arg=${BUILD_ARG}"
     done
-    echo "    Build args: ${BUILD_ARG_PARAMETERS}"
-    set -x
     docker buildx build "${BUILD_CONTEXT}" \
         ${BUILD_ARG_PARAMETERS} \
         --cache-to=type=inline,mode=min \

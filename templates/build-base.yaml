@@ -37,10 +37,8 @@ build-base-build:
     TAG: ${VERSION}-${ARCH}
     BUILD_ARGS: VERSION
   before_script:
-  - printenv | sort
   - |
     sed -i -E 's/ghcr.io/registry.gitlab.com/g; s/github.com/gitlab.com/g' ${BUILD_CONTEXT}/Dockerfile
-  - echo "VERSION=${VERSION}"
   tags:
   - saas-linux-medium-${ARCH}
 
@@ -50,8 +48,8 @@ build-base-index:
   parallel:
     matrix:
     - VERSION:
-      - "24.04"
-      - "rolling"
+      - "3.20"
+      - "latest"
   extends:
   - .build-base-rules
   - .docker-index
