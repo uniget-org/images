@@ -5,8 +5,12 @@ ubuntu:
   stage: build
   parallel:
     matrix:
-    - IMAGE_TAG: [ 24.04, rolling ]
-      ARCH: [ amd64, arm64 ]
+    - TAG:
+      - "24.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
   services:
   - docker:27.3.1-dind
   before_script:
