@@ -23,8 +23,8 @@ build-base-build:
   parallel:
     matrix:
     - VERSION:
-      - "24.04"
-      - "rolling"
+      - "3.20"
+      - "latest"
       ARCH:
       - "amd64"
       - "arm64"
