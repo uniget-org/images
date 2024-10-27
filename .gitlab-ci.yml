@@ -1,10 +1,10 @@
-variables:
-  BUILD_UBUNTU:
-    description: Whether to build the Ubuntu image
-    value: "true"
-    options:
-    - "true"
-    - "false"
+#variables:
+#  BUILD_UBUNTU:
+#    description: Whether to build the Ubuntu image
+#    value: "true"
+#    options:
+#    - "true"
+#    - "false"
 
 .docker-login:
   before_script:
