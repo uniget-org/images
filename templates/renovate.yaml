@@ -14,4 +14,4 @@ renovate:
     #LOG_FORMAT: "json"
   script:
   - |
-    renovate "${CI_PROJECT_PATH_SLUG}"
+    renovate "${CI_PROJECT_PATH}"
