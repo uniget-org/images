@@ -1,0 +1,19 @@
+stages:
+- build
+
+ubuntu:
+  stage: build
+  parallel:
+    matrix:
+    - IMAGE_TAG: [ 24.04, rolling ]
+      ARCH: [ amd64, arm64 ]
+  services:
+  - docker:27.3.1-dind
+  before_script:
+  - |
+    SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct ubuntu/Dockerfile)"
+    export SOURCE_DATE_EPOCH
+  script:
+  - docker version
+  tags:
+  - saas-linux-medium-${ARCH}
