@@ -13,9 +13,10 @@ ubuntu:
       - "arm64"
   services:
   - docker:27.3.1-dind
+  image: docker:27.3.1
   before_script:
   - |
-    SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct ubuntu/Dockerfile)"
+    SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct ubuntu/Dockerfile)"
     export SOURCE_DATE_EPOCH
   script:
   - docker version
