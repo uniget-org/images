@@ -35,9 +35,9 @@
   - .docker-login
   script:
   - |
-    docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}" \
-        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-amd64" \
-        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-arm64"
+    docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}" \
+        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}-amd64" \
+        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}-arm64"
 
 .ubuntu-rules:
   rules:
