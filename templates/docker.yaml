@@ -33,7 +33,7 @@
         BUILD_ARG_PARAMETERS="${BUILD_ARG_PARAMETERS} --build-arg=${BUILD_ARG}"
     done
     docker buildx build "${BUILD_CONTEXT}" \
-        ${BUILD_ARGS_PARAMETERS} \
+        ${BUILD_ARG_PARAMETERS} \
         --cache-to=type=inline,mode=min \
         --cache-from=type=registry,ref="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}" \
         --tag="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${TAG}" \

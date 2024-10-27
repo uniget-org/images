@@ -35,7 +35,7 @@ alpine-build:
     IMAGE_NAME: alpine
     BUILD_CONTEXT: alpine
     TAG: ${VERSION}-${ARCH}
-    BUILD_ARGS: VERSION TAG
+    BUILD_ARGS: VERSION
   tags:
   - saas-linux-medium-${ARCH}
 
