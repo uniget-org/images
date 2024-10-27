@@ -19,7 +19,7 @@
   - docker:27.3.1-dind
   script:
   - |
-    SOURCE_DATE_EPOCH="$( git log -1 --pretty=%ct "${IMAGE_NAME}/Dockerfile" )"
+    SOURCE_DATE_EPOCH="$( git log -1 --pretty=%ct "${BUILD_CONTEXT}/Dockerfile" )"
     export SOURCE_DATE_EPOCH
   - |
     docker buildx build "${BUILD_CONTEXT}" \
