@@ -2,3 +2,4 @@ include:
 - local: templates/docker.yaml
 - local: templates/ubuntu.yaml
 - local: templates/alpine.yaml
+- local: templates/wolfi.yaml

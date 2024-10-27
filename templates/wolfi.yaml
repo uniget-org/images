@@ -1,0 +1,41 @@
+.wolfi-rules:
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    changes:
+    - wolfi/Dockerfile
+    - templates/wolfi.yaml
+    variables:
+      PUSH: "true"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - wolfi/Dockerfile
+    variables:
+      PUSH: "false"
+  - if: $CI_PIPELINE_SOURCE == "web"
+    variables:
+      PUSH: "true"
+
+wolfi-build:
+  parallel:
+    matrix:
+    - ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .wolfi-rules
+  - .docker-build
+  variables:
+    IMAGE_NAME: wolfi
+    BUILD_CONTEXT: build-base/wolfi
+    BUILD_ARGS: ""
+  tags:
+  - saas-linux-medium-${ARCH}
+
+wolfi-index:
+  needs:
+  - wolfi-build
+  extends:
+  - .wolfi-rules
+  - .docker-index
+  variables:
+    IMAGE_NAME: wolfi
