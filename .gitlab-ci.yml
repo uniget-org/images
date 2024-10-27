@@ -20,7 +20,7 @@ ubuntu:
     export SOURCE_DATE_EPOCH
   script:
   - |
-    docker buildx build . \
+    docker buildx build ubuntu \
         --build-arg VERSION \
         --tag "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-${ARCH}" \
         --push
