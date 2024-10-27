@@ -18,6 +18,11 @@ ubuntu:
   - |
     SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct ubuntu/Dockerfile)"
     export SOURCE_DATE_EPOCH
+  - |
+    echo "${CI_REGISTRY_PASSWORD}" \
+    | docker login "${CI_REGISTRY}" \
+        --username "${CI_REGISTRY_USER}" \
+        --password-stdin
   script:
   - |
     docker buildx build ubuntu \
