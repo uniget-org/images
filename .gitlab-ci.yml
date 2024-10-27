@@ -1,10 +1,6 @@
 #variables:
 #  BUILD_UBUNTU:
-#    description: Whether to build the Ubuntu image
-#    value: "true"
-#    options:
-#    - "true"
-#    - "false"
+#    description: Whether to build the Ubuntu image (if non-empty)
 
 .docker-login:
   before_script:
@@ -26,7 +22,9 @@
     - ubuntu/Dockerfile
     variables:
       PUSH: "false"
-  - if: $CI_PIPELINE_SOURCE == "web" && $BUILD_UBUNTU == "true"
+  - if: >
+      $CI_PIPELINE_SOURCE == "web" &&
+      $BUILD_UBUNTU
     variables:
       PUSH: "true"
 
