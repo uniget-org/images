@@ -14,7 +14,7 @@ variables:
         --username "${CI_REGISTRY_USER}" \
         --password-stdin
 
-ubuntu-build:
+.ubuntu-rules:
   rules:
   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     changes:
@@ -29,6 +29,8 @@ ubuntu-build:
   - if: $CI_PIPELINE_SOURCE == "web" && $BUILD_UBUNTU == "true"
     variables:
       PUSH: "true"
+
+ubuntu-build:
   parallel:
     matrix:
     - VERSION:
@@ -40,6 +42,7 @@ ubuntu-build:
   services:
   - docker:27.3.1-dind
   extends:
+  - .ubuntu-rules
   - .docker-login
   image: docker:27.3.1
   variables:
@@ -68,6 +71,7 @@ ubuntu-index:
       - "24.04"
       - "rolling"
   extends:
+  - .ubuntu-rules
   - .docker-login
   image: docker:27.3.1
   variables:
