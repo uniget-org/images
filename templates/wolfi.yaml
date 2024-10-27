@@ -25,9 +25,9 @@ wolfi-build:
   - .wolfi-rules
   - .docker-build
   variables:
-    IMAGE_NAME: wolfi
+    IMAGE_NAME: build-base
     BUILD_CONTEXT: build-base/wolfi
-    BUILD_ARGS: ""
+    BUILD_ARGS: "TAG=wolfi-${ARCH}"
   tags:
   - saas-linux-medium-${ARCH}
 
@@ -38,4 +38,5 @@ wolfi-index:
   - .wolfi-rules
   - .docker-index
   variables:
-    IMAGE_NAME: wolfi
+    IMAGE_NAME: build-base
+    TAG: wolfi

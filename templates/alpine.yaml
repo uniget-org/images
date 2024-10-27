@@ -30,7 +30,7 @@ alpine-build:
   variables:
     IMAGE_NAME: alpine
     BUILD_CONTEXT: alpine
-    BUILD_ARGS: VERSION
+    BUILD_ARGS: VERSION,TAG=${VERSION}-${ARCH}
   tags:
   - saas-linux-medium-${ARCH}
 
@@ -39,7 +39,7 @@ alpine-index:
   - alpine-build
   parallel:
     matrix:
-    - TAG:
+    - VERSION:
       - "3.20"
       - "latest"
   extends:
@@ -47,3 +47,4 @@ alpine-index:
   - .docker-index
   variables:
     IMAGE_NAME: alpine
+    TAG: ${VERSION}

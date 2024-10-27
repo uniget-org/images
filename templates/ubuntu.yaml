@@ -30,7 +30,7 @@ ubuntu-build:
   variables:
     IMAGE_NAME: ubuntu
     BUILD_CONTEXT: ubuntu
-    BUILD_ARGS: VERSION
+    BUILD_ARGS: VERSION,TAG=${VERSION}-${ARCH}
   tags:
   - saas-linux-medium-${ARCH}
 
@@ -39,7 +39,7 @@ ubuntu-index:
   - ubuntu-build
   parallel:
     matrix:
-    - TAG:
+    - VERSION:
       - "24.04"
       - "rolling"
   extends:
@@ -47,3 +47,4 @@ ubuntu-index:
   - .docker-index
   variables:
     IMAGE_NAME: ubuntu
+    TAG: ${VERSION}
