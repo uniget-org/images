@@ -7,6 +7,20 @@
         --password-stdin
 
 ubuntu-build:
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    changes:
+    - ubuntu/Dockerfile
+    variables:
+      PUSH: "true"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - ubuntu/Dockerfile
+    variables:
+      PUSH: "false"
+  - if: $CI_PIPELINE_SOURCE == "web"
+    variables:
+      PUSH: "true"
   parallel:
     matrix:
     - VERSION:
@@ -20,17 +34,20 @@ ubuntu-build:
   extends:
   - .docker-login
   image: docker:27.3.1
+  variables:
+    IMAGE_NAME: ubuntu
+    BUILD_CONTEXT: ubuntu
   script:
   - |
-    SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct ubuntu/Dockerfile)"
+    SOURCE_DATE_EPOCH="$( git log -1 --pretty=%ct "${IMAGE_NAME}/Dockerfile" )"
     export SOURCE_DATE_EPOCH
   - |
-    docker buildx build ubuntu \
+    docker buildx build "${BUILD_CONTEXT}" \
         --build-arg=VERSION \
         --cache-to=type=inline,mode=min \
-        --cache-from=type=registry,ref="${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-${ARCH}" \
-        --tag="${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-${ARCH}" \
-        --push
+        --cache-from=type=registry,ref="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-${ARCH}" \
+        --tag="${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-${ARCH}" \
+        --push="${PUSH}"
   tags:
   - saas-linux-medium-${ARCH}
 
@@ -45,8 +62,10 @@ ubuntu-index:
   extends:
   - .docker-login
   image: docker:27.3.1
+  variables:
+    IMAGE_NAME: ubuntu
   script:
   - |
-    docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}" \
-        "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-amd64" \
-        "${CI_REGISTRY_IMAGE}/ubuntu:${VERSION}-arm64"
+    docker buildx imagetools create --tag "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}" \
+        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-amd64" \
+        "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${VERSION}-arm64"
