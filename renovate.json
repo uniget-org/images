@@ -18,7 +18,8 @@
       "matchDatasources": ["docker"],
       "matchDepNames": [
         "alpine",
-        "ghcr.io/uniget-org/images/alpine"
+        "ghcr.io/uniget-org/images/alpine",
+        "registry.gitlab.com/uniget-org/images/alpine"
       ],
       "enabled": false
     },
@@ -31,7 +32,8 @@
       "matchDatasources": ["docker"],
       "matchDepNames": [
         "ubuntu",
-        "ghcr.io/uniget-org/images/ubuntu"
+        "ghcr.io/uniget-org/images/ubuntu",
+        "registry.gitlab.com/uniget-org/images/ubuntu"
       ],
       "enabled": false
     }
