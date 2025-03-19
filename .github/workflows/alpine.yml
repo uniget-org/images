@@ -39,8 +39,8 @@ jobs:
     strategy:
       matrix:
         IMAGE_TAG:
-        - "3.19"
         - "3.20"
+        - "3.21"
         - latest
     steps:
 
