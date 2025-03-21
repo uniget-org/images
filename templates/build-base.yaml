@@ -24,6 +24,7 @@ build-base-build:
     matrix:
     - VERSION:
       - "3.20"
+      - "3.21"
       - "latest"
       ARCH:
       - "amd64"
@@ -49,6 +50,7 @@ build-base-index:
     matrix:
     - VERSION:
       - "3.20"
+      - "3.21"
       - "latest"
   extends:
   - .build-base-rules

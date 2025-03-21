@@ -24,6 +24,7 @@ alpine-build:
     matrix:
     - VERSION:
       - "3.20"
+      - "3.21"
       - "latest"
       ARCH:
       - "amd64"
@@ -46,6 +47,7 @@ alpine-index:
     matrix:
     - VERSION:
       - "3.20"
+      - "3.21"
       - "latest"
   extends:
   - .alpine-rules
