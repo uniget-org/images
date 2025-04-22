@@ -17,7 +17,7 @@ include:
   file: renovate.yaml
   ref: main
 
-renovate:
+renovate_template:
   extends:
   - .renovate
   rules:
