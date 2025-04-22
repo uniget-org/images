@@ -6,7 +6,7 @@ include:
 - local: templates/build-base.yaml
 - local: templates/wolfi.yaml
 - local: templates/systemd.yaml
-- component: $CI_SERVER_FQDN/uniget-org/components/renovate@renovate/1.0.1
+- component: $CI_SERVER_FQDN/uniget-org/components/renovate@renovate/1.0.2
   inputs:
     rules:
     - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_JOB == "renovate"
