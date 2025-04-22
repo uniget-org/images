@@ -6,20 +6,10 @@ include:
 - local: templates/build-base.yaml
 - local: templates/wolfi.yaml
 - local: templates/systemd.yaml
-- component: $CI_SERVER_FQDN/uniget-org/components/renovate@renovate/1.0.2
+- component: $CI_SERVER_FQDN/uniget-org/components/renovate@renovate/1.0.3
   inputs:
     rules:
     - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_JOB == "renovate"
     - if: $CI_PIPELINE_SOURCE == "web" && $SCHEDULED_JOB == "renovate"
-    token: ${RENOVATE_TOKEN}
-    github_token: ${RENOVATE_GITHUB_TOKEN}
-- project: uniget-org/templates
-  file: renovate.yaml
-  ref: main
-
-renovate_template:
-  extends:
-  - .renovate
-  rules:
-  - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULED_JOB == "renovate"
-  - if: $CI_PIPELINE_SOURCE == "web" && $SCHEDULED_JOB == "renovate"
+    token_variable_name: RENOVATE_TOKEN
+    github_token_variable_name: RENOVATE_GITHUB_TOKEN
