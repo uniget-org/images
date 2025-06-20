@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.15.0@sha256:05e0ad437efefcf144bfbf9d7f728c17818408e6d01432d9e264ef958bbd52f3
+#syntax=docker/dockerfile:1.17.1@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05
 
 ARG VERSION
 FROM registry.gitlab.com/uniget-org/images/ubuntu:${VERSION} AS base
