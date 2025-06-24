@@ -23,8 +23,8 @@ alpine-build:
   parallel:
     matrix:
     - VERSION:
-      - "3.20"
       - "3.21"
+      - "3.22"
       - "latest"
       ARCH:
       - "amd64"
@@ -46,8 +46,8 @@ alpine-index:
   parallel:
     matrix:
     - VERSION:
-      - "3.20"
       - "3.21"
+      - "3.22"
       - "latest"
   extends:
   - .alpine-rules

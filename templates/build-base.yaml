@@ -23,8 +23,8 @@ build-base-build:
   parallel:
     matrix:
     - VERSION:
-      - "3.20"
       - "3.21"
+      - "3.22"
       - "latest"
       ARCH:
       - "amd64"
@@ -49,8 +49,8 @@ build-base-index:
   parallel:
     matrix:
     - VERSION:
-      - "3.20"
       - "3.21"
+      - "3.22"
       - "latest"
   extends:
   - .build-base-rules
