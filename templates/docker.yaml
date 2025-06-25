@@ -1,5 +1,5 @@
 .docker:
-  image: docker:28.1.1
+  image: docker:28.3.0
 
 .docker-login:
   extends:
@@ -15,7 +15,7 @@
   extends:
   - .docker
   services:
-  - docker:28.1.1-dind
+  - docker:28.3.0-dind
   script:
   - |
     SOURCE_DATE_EPOCH="$( git log -1 --pretty=%ct "${BUILD_CONTEXT}/Dockerfile" )"
