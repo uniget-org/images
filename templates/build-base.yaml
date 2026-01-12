@@ -25,6 +25,7 @@ build-base-build:
     - VERSION:
       - "3.21"
       - "3.22"
+      - "3.23"
       - "latest"
       ARCH:
       - "amd64"
@@ -51,6 +52,7 @@ build-base-index:
     - VERSION:
       - "3.21"
       - "3.22"
+      - "3.23"
       - "latest"
   extends:
   - .build-base-rules
