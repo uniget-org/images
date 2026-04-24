@@ -8,7 +8,7 @@
       "pinDigests": true
   },
   "rebaseWhen": "conflicted",
-  "gitlab-ci": {
+  "gitlabci": {
     "fileMatch": [
       "\\.gitlab-ci\\.ya?ml$",
       "templates/.+\\.ya?ml$"
