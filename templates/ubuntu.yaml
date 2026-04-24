@@ -24,6 +24,7 @@ ubuntu-build:
     matrix:
     - VERSION:
       - "24.04"
+      - "26.04"
       - "rolling"
       ARCH:
       - "amd64"
@@ -46,6 +47,7 @@ ubuntu-index:
     matrix:
     - VERSION:
       - "24.04"
+      - "26.04"
       - "rolling"
   extends:
   - .ubuntu-rules
