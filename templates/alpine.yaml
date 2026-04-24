@@ -23,7 +23,6 @@ alpine-build:
   parallel:
     matrix:
     - VERSION:
-      - "3.21"
       - "3.22"
       - "3.23"
       - "latest"
@@ -47,7 +46,6 @@ alpine-index:
   parallel:
     matrix:
     - VERSION:
-      - "3.21"
       - "3.22"
       - "3.23"
       - "latest"
