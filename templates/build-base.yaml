@@ -23,7 +23,6 @@ build-base-build:
   parallel:
     matrix:
     - VERSION:
-      - "3.21"
       - "3.22"
       - "3.23"
       - "latest"
@@ -50,7 +49,6 @@ build-base-index:
   parallel:
     matrix:
     - VERSION:
-      - "3.21"
       - "3.22"
       - "3.23"
       - "latest"
