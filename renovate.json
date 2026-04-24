@@ -8,6 +8,12 @@
       "pinDigests": true
   },
   "rebaseWhen": "conflicted",
+  "gitlab-ci": {
+    "fileMatch": [
+      "\\.gitlab-ci\\.ya?ml$",
+      "templates/.+\\.ya?ml$"
+    ]
+  },
   "packageRules": [
     {
       "matchFileNames": [
