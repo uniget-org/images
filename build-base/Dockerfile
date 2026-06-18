@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.15.0@sha256:05e0ad437efefcf144bfbf9d7f728c17818408e6d01432d9e264ef958bbd52f3
+#syntax=docker/dockerfile:1.25.0@sha256:0adf442eae370b6087e08edc7c50b552d80ddf261576f4ebd6421006b2461f12
 
 ARG VERSION
 FROM registry.gitlab.com/uniget-org/images/alpine:${VERSION} AS base
