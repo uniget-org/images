@@ -10,7 +10,8 @@ apt-get -y install \
     automake \
     libtool \
     build-essential \
-    pkg-config
+    pkg-config \
+    musl-tools
 EOF
 
 ARG VERSION
