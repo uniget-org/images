@@ -35,7 +35,8 @@ apt-get -y install \
     unzip \
     binutils \
     xz-utils \
-    zstd
+    zstd \
+    libatomic1
 rm -f /usr/local/sbin/unminimize
 EOF
 

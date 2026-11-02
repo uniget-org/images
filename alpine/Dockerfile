@@ -16,7 +16,8 @@ apk add --update-cache --no-cache \
     less \
     vim \
     git \
-    zstd
+    zstd \
+    libatomic
 EOF
 
 ARG VERSION
