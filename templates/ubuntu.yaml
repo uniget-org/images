@@ -55,3 +55,65 @@ ubuntu-index:
   variables:
     IMAGE_NAME: ubuntu
     TAG: ${VERSION}
+
+ubuntu-sign:
+  needs:
+  - ubuntu-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "ubuntu"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+  extends:
+  - .ubuntu-rules
+  - .sign
+
+ubuntu-attest:provenance:
+  needs:
+  - ubuntu-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "ubuntu"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+  extends:
+  - .ubuntu-rules
+  - .attest-provenance
+
+ubuntu-attest:sbom:
+  needs:
+  - ubuntu-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "ubuntu"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .ubuntu-rules
+  - .attest-sbom
+
+ubuntu-scan:vulnerabilities:
+  needs:
+  - "ubuntu-attest:sbom"
+  parallel:
+    matrix:
+    - IMAGE_NAME: "ubuntu"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .ubuntu-rules
+  - .scan-vulnerabilities

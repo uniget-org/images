@@ -58,3 +58,65 @@ build-essential-index:
   variables:
     IMAGE_NAME: build-essential
     TAG: ${VERSION}
+
+build-essential-sign:
+  needs:
+  - build-essential-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-essential"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+  extends:
+  - .build-essential-rules
+  - .sign
+
+build-essential-attest:provenance:
+  needs:
+  - build-essential-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-essential"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+  extends:
+  - .build-essential-rules
+  - .attest-provenance
+
+build-essential-attest:sbom:
+  needs:
+  - build-essential-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-essential"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .build-essential-rules
+  - .attest-sbom
+
+build-essential-scan:vulnerabilities:
+  needs:
+  - "build-essential-attest:sbom"
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-essential"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .build-essential-rules
+  - .scan-vulnerabilities

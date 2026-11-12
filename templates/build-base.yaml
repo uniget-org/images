@@ -58,3 +58,65 @@ build-base-index:
   variables:
     IMAGE_NAME: build-base
     TAG: ${VERSION}
+
+build-base-sign:
+  needs:
+  - build-base-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+  extends:
+  - .build-base-rules
+  - .sign
+
+build-base-attest:provenance:
+  needs:
+  - build-base-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+  extends:
+  - .build-base-rules
+  - .attest-provenance
+
+build-base-attest:sbom:
+  needs:
+  - build-base-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .build-base-rules
+  - .attest-sbom
+
+build-base-scan:vulnerabilities:
+  needs:
+  - "build-base-attest:sbom"
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .build-base-rules
+  - .scan-vulnerabilities

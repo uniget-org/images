@@ -45,3 +45,53 @@ wolfi-index:
   variables:
     IMAGE_NAME: build-base
     TAG: wolfi
+
+wolfi-sign:
+  needs:
+  - wolfi-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG: "wolfi"
+  extends:
+  - .wolfi-rules
+  - .sign
+
+wolfi-attest:provenance:
+  needs:
+  - wolfi-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG: "wolfi"
+  extends:
+  - .wolfi-rules
+  - .attest-provenance
+
+wolfi-attest:sbom:
+  needs:
+  - wolfi-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG: "wolfi"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .wolfi-rules
+  - .attest-sbom
+
+wolfi-scan:vulnerabilities:
+  needs:
+  - "wolfi-attest:sbom"
+  parallel:
+    matrix:
+    - IMAGE_NAME: "build-base"
+      TAG: "wolfi"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .wolfi-rules
+  - .scan-vulnerabilities

@@ -55,3 +55,65 @@ alpine-index:
   variables:
     IMAGE_NAME: alpine
     TAG: ${VERSION}
+
+alpine-sign:
+  needs:
+  - alpine-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "alpine"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+  extends:
+  - .alpine-rules
+  - .sign
+
+alpine-attest:provenance:
+  needs:
+  - alpine-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "alpine"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+  extends:
+  - .alpine-rules
+  - .attest-provenance
+
+alpine-attest:sbom:
+  needs:
+  - alpine-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "alpine"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .alpine-rules
+  - .attest-sbom
+
+alpine-scan:vulnerabilities:
+  needs:
+  - "alpine-attest:sbom"
+  parallel:
+    matrix:
+    - IMAGE_NAME: "alpine"
+      TAG:
+      - "3.23"
+      - "3.24"
+      - "latest"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .alpine-rules
+  - .scan-vulnerabilities

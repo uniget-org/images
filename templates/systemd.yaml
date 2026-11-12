@@ -58,3 +58,65 @@ systemd-index:
   variables:
     IMAGE_NAME: systemd
     TAG: ${VERSION}
+
+systemd-sign:
+  needs:
+  - systemd-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "systemd"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+  extends:
+  - .systemd-rules
+  - .sign
+
+systemd-attest:provenance:
+  needs:
+  - systemd-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "systemd"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+  extends:
+  - .systemd-rules
+  - .attest-provenance
+
+systemd-attest:sbom:
+  needs:
+  - systemd-index
+  parallel:
+    matrix:
+    - IMAGE_NAME: "systemd"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .systemd-rules
+  - .attest-sbom
+
+systemd-scan:vulnerabilities:
+  needs:
+  - "systemd-attest:sbom"
+  parallel:
+    matrix:
+    - IMAGE_NAME: "systemd"
+      TAG:
+      - "24.04"
+      - "26.04"
+      - "rolling"
+      ARCH:
+      - "amd64"
+      - "arm64"
+  extends:
+  - .systemd-rules
+  - .scan-vulnerabilities
